@@ -1,5 +1,5 @@
 <h1 align="center">
-	<img width="200" src="https://github.com/StCatsHacks/StCatsHacks-Website/blob/master/images/bikers_d.gif" alt="awesome">
+	<img src="https://github.com/StCatsHacks/StCatsHacks-Website/blob/master/images/bikers_d.gif" alt="awesome">
 	<br>
 </h1>
 
