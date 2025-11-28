@@ -160,9 +160,34 @@
 				}
 
 				.sponsors a{
-                			border-bottom: none !important;
-                    			text-decoration: none !important;
-                		}
+                    border-bottom: none !important;
+                    text-decoration: none !important;
+                }
+                
+				.countdown-card {
+					max-width: 420px;
+					margin: 0 auto 35px;
+					padding: 18px 22px;
+					color: #fff;
+					background: rgba(255, 255, 255, 0.08);
+					border: 1px solid rgba(255, 255, 255, 0.25);
+					border-radius: 18px;
+					backdrop-filter: blur(12px);
+					-webkit-backdrop-filter: blur(12px);
+					box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+				}
+				.countdown-heading {
+					margin: 0;
+					font-size: 1.1em;
+					letter-spacing: 0.04em;
+					text-transform: uppercase;
+				}
+				.countdown-timer {
+					margin: 6px 0 0 0;
+					font-size: 2.2em;
+					font-weight: 700;
+					letter-spacing: 0.08em;
+				}
 			</style>
 
 		<!-- Sidebar -->
@@ -216,17 +241,78 @@ var x = setInterval(function() {
     
   // If the count down is over, write some text 
   if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
-  }
-}, 1000);
-</script>
-				
+	    clearInterval(x);
+	    document.getElementById("demo").innerHTML = "EXPIRED";
+	  }
+	}, 1000);
+	</script>
+
+	<script>
+	document.addEventListener("DOMContentLoaded", function() {
+	
+		var countdownHeading = document.getElementById("countdown-heading");
+		var countdownTimer = document.getElementById("countdown-timer");
+		
+		if (!countdownHeading || !countdownTimer) return;
+
+		// Datetimes for hacking start and end (year-month-day | hours-minutes-seconds)
+		var hackingStartsAt = new Date("2025-11-29T12:00:00+02:00");
+		var hackingEndsAt = new Date("2025-11-30T16:00:00+02:00");
+		var countdownInterval = null;
+
+		function formatDuration(distance) {
+			var totalSeconds = Math.max(0, Math.floor(distance / 1000));
+			var days = Math.floor(totalSeconds / (60 * 60 * 24));
+			var hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+			var minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+			var seconds = totalSeconds % 60;
+
+			return (
+				(days > 0 ? days + "d " : "") +
+				String(hours).padStart(2, "0") + "h " +
+				String(minutes).padStart(2, "0") + "m " +
+				String(seconds).padStart(2, "0") + "s"
+			);
+		}
+
+		function renderCountdown() {
+			var now = new Date();
+
+			if (now < hackingStartsAt) {
+				countdownHeading.textContent = "Hacking Begins In:";
+				countdownTimer.textContent = formatDuration(hackingStartsAt.getTime() - now.getTime());
+				return;
+			}
+
+			if (now < hackingEndsAt) {
+				countdownHeading.textContent = "Hacking Ends In:";
+				countdownTimer.textContent = formatDuration(hackingEndsAt.getTime() - now.getTime());
+				return;
+			}
+
+			countdownHeading.textContent = "Hacking Has Ended";
+			countdownTimer.textContent = "See You Next Year!";
 			
-				
+			if (countdownInterval) {
+				clearInterval(countdownInterval);
+			}
+		}
+
+		renderCountdown();
+		countdownInterval = setInterval(renderCountdown, 1000);
+	});
+	</script>
+
+
+
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
+
+							<div class="countdown-card" id="countdown-card">
+								<p class="countdown-heading" id="countdown-heading">Hacking Begins In:</p>
+								<p class="countdown-timer" id="countdown-timer">Loading...</p>
+							</div>
 							
 							<h1>StCatsHacks 2025</hnhj1>
 							<!--<p>7th edition</p>-->
@@ -551,21 +637,3 @@ Students are invited to use AI to create solutions that advance the SDGs—tackl
 			</footer>
 	</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
